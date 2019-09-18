@@ -15,7 +15,8 @@ export class DynamoDb extends cdk.Stack {
 
     this.table = new dynamodb.Table(this, `${projectname}${env}`, {
       tableName: tableName,
-      partitionKey: { name: "PK", type: dynamodb.AttributeType.STRING }
+      partitionKey: { name: "PK", type: dynamodb.AttributeType.STRING },
+      sortKey: { name: "SK", type: dynamodb.AttributeType.STRING }
     });
 
     const readScaling = this.table.autoScaleReadCapacity({
