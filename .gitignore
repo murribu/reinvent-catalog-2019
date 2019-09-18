@@ -3,4 +3,4 @@ build/
 coverage/
 src/config.js
 cdkdeployresult_cognito.txt
-setAwsResourceEnvVars.sh
+setAwsResourcesEnvVars.sh
