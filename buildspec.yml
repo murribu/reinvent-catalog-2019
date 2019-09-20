@@ -1,0 +1,18 @@
+version: 0.2
+phases:
+  install:
+    runtime-versions:
+      nodejs: 10
+  build:
+    commands:
+      - cp cdk/config.example.ts cdk/config.ts
+      - sed "s/environment\:\ \"Dev\"/environment\:\ \"Testing\"/" cdk/config.example.ts > cdk/config.ts
+      - npm i -g aws-cdk
+      - touch cdkdeployresults.txt
+      - echo "export default {};" > src/config.js
+      - chmod +x cicd-deploy.sh
+      - ./cicd-deploy.sh
+  post_build:
+    commands:
+      - chmod +x cicd-destroy.sh
+      - ./cicd-destroy.sh

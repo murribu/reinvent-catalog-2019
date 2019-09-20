@@ -30,6 +30,7 @@ Then...
 ```
 mkdir build
 cd cdk
+yarn
 yarn build && cdk synth
 cdk deploy ReinventCatalogDevCognito --require-approval never &> ../cdkdeployresult_cognito.txt
 wait $!

@@ -169,6 +169,7 @@ exports.handler = async (event: any, serverlessContext: lambda.Context) => {
     organizationName: {
       S: event.request.userAttributes["custom:organization"]
     },
+    admin: { BOOL: true },
     createdAt: { S: dateAsIso },
     updatedAt: { S: dateAsIso }
   };
@@ -222,4 +223,3 @@ exports.handler = async (event: any, serverlessContext: lambda.Context) => {
 
   return event;
 };
-
