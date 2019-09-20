@@ -1,9 +1,12 @@
 #!/bin/bash
 mkdir build
-cd cdk
+cd cdk/assets/lambda/createuser
+yarn
+cd ../../..
+cdk list
 yarn
 yarn build && cdk synth
-cdk deploy ReinventCatalogDevCognito --require-approval never &> ../cdkdeployresult_cognito.txt
+cdk deploy ReinventCatalogTestingCognito --require-approval never &> ../cdkdeployresult_cognito.txt
 wait $!
 cd ..
 echo "export default {};" > src/config.js
