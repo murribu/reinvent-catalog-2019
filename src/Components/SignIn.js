@@ -47,7 +47,7 @@ class SignIn extends React.Component {
               type="email"
               value={this.state.email}
               onChange={this.handleChange}
-              placeholder="user@email.com"
+              placeholder="user@example.com"
             />
           </Form.Group>
           <Form.Group bs-size="large">

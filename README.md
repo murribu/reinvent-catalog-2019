@@ -21,7 +21,7 @@ Create `cdk/config.ts` and put something like this in it:
 ```
 export default {
   environment: "Dev",
-  projectname: "ProjectName"
+  projectname: "ReinventCatalog"
 };
 ```
 
@@ -31,13 +31,12 @@ Then...
 mkdir build
 cd cdk
 yarn build && cdk synth
-cdk deploy ProjectNameDevDynamoDb --require-approval never
-cdk deploy ProjectNameDevCognito --require-approval never &> ../cdkdeployresult_cognito.txt
+cdk deploy ReinventCatalogDevCognito --require-approval never &> ../cdkdeployresult_cognito.txt
 wait $!
 cd ..
 echo "export default {};" > src/config.js
 node parseAwsOutputs.js cdkdeployresult_cognito.txt src/config.js
 yarn build
 cd cdk
-cdk deploy ProjectNameDevS3 --require-approval never
+cdk deploy ReinventCatalogDevS3 --require-approval never
 ```

@@ -8,6 +8,9 @@ import "./SignIn.css";
 class SignUp extends React.Component {
   state = {
     isLoading: false,
+    first_name: "",
+    last_name: "",
+    organization: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -18,6 +21,9 @@ class SignUp extends React.Component {
 
   validateForm() {
     return (
+      this.state.first_name.length > 0 &&
+      this.state.last_name.length > 0 &&
+      this.state.organization.length > 0 &&
       this.state.email.length > 0 &&
       this.state.password.length > 0 &&
       this.state.password === this.state.confirmPassword
@@ -42,7 +48,12 @@ class SignUp extends React.Component {
     try {
       const newUser = await Auth.signUp({
         username: this.state.email,
-        password: this.state.password
+        password: this.state.password,
+        attributes: {
+          "custom:first_name": this.state.first_name,
+          "custom:last_name": this.state.last_name,
+          "custom:organization": this.state.organization
+        }
       });
       this.setState({
         newUser
@@ -99,6 +110,30 @@ class SignUp extends React.Component {
   renderForm() {
     return (
       <Form onSubmit={this.handleSubmit} style={{ textAlign: "center" }}>
+        <Form.Group controlId="first_name">
+          <Form.Label>First Name</Form.Label>
+          <Form.Control
+            value={this.state.first_name}
+            onChange={this.handleChange}
+            placeholder="First Name"
+          />
+        </Form.Group>
+        <Form.Group controlId="last_name">
+          <Form.Label>Last Name</Form.Label>
+          <Form.Control
+            value={this.state.last_name}
+            onChange={this.handleChange}
+            placeholder="Last Name"
+          />
+        </Form.Group>
+        <Form.Group controlId="organization">
+          <Form.Label>Organization Name</Form.Label>
+          <Form.Control
+            value={this.state.organization}
+            onChange={this.handleChange}
+            placeholder="Organization Name"
+          />
+        </Form.Group>
         <Form.Group controlId="email" bs-size="large">
           <Form.Label>Email</Form.Label>
           <Form.Control
@@ -106,6 +141,7 @@ class SignUp extends React.Component {
             type="email"
             value={this.state.email}
             onChange={this.handleChange}
+            placeholder="user@example.com"
           />
         </Form.Group>
         <Form.Group controlId="password" bs-size="large">

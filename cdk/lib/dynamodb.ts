@@ -13,7 +13,7 @@ export class DynamoDb extends cdk.Stack {
 
     const tableName = `${projectname}${env}`;
 
-    this.table = new dynamodb.Table(this, `${projectname}${env}`, {
+    this.table = new dynamodb.Table(this, tableName, {
       tableName: tableName,
       partitionKey: { name: "PK", type: dynamodb.AttributeType.STRING },
       sortKey: { name: "SK", type: dynamodb.AttributeType.STRING }
@@ -37,33 +37,33 @@ export class DynamoDb extends cdk.Stack {
       targetUtilizationPercent: 70
     });
 
-    // const gsi1 = this.table.addGlobalSecondaryIndex({
-    //   indexName: "GSI1PK",
-    //   partitionKey: {
-    //     name: "GSI1PK",
-    //     type: dynamodb.AttributeType.STRING
-    //   },
-    //   sortKey: { name: "GSI1SK", type: dynamodb.AttributeType.STRING }
-    // });
+    const gsi1 = this.table.addGlobalSecondaryIndex({
+      indexName: "GSI1PK",
+      partitionKey: {
+        name: "GSI1PK",
+        type: dynamodb.AttributeType.STRING
+      },
+      sortKey: { name: "GSI1SK", type: dynamodb.AttributeType.STRING }
+    });
 
-    // const gsi1ReadCapacity = this.table.autoScaleGlobalSecondaryIndexReadCapacity(
-    //   "GSI1PK",
-    //   {
-    //     minCapacity: 1,
-    //     maxCapacity: 50
-    //   }
-    // );
+    const gsi1ReadCapacity = this.table.autoScaleGlobalSecondaryIndexReadCapacity(
+      "GSI1PK",
+      {
+        minCapacity: 1,
+        maxCapacity: 50
+      }
+    );
 
-    // gsi1ReadCapacity.scaleOnUtilization({ targetUtilizationPercent: 70 });
+    gsi1ReadCapacity.scaleOnUtilization({ targetUtilizationPercent: 70 });
 
-    // const gsi1WriteCapacity = this.table.autoScaleGlobalSecondaryIndexWriteCapacity(
-    //   "GSI1PK",
-    //   {
-    //     minCapacity: 1,
-    //     maxCapacity: 50
-    //   }
-    // );
+    const gsi1WriteCapacity = this.table.autoScaleGlobalSecondaryIndexWriteCapacity(
+      "GSI1PK",
+      {
+        minCapacity: 1,
+        maxCapacity: 50
+      }
+    );
 
-    // gsi1WriteCapacity.scaleOnUtilization({ targetUtilizationPercent: 70 });
+    gsi1WriteCapacity.scaleOnUtilization({ targetUtilizationPercent: 70 });
   }
 }

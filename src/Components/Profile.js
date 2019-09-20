@@ -1,6 +1,6 @@
 import React from "react";
 // import { API, graphqlOperation } from "aws-amplify";
-import LoaderButton from "./LoaderButton";
+// import LoaderButton from "./LoaderButton";
 // import { getUser } from "./../graphql/queries";
 // import { updateUser } from "./../graphql/mutations";
 

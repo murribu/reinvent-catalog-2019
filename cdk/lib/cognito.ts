@@ -29,7 +29,7 @@ export class Cognito extends cdk.Stack {
         handler: "src/index.handler",
         code: lambda.Code.asset("./assets/lambda/createuser"),
         environment: {
-          DYAMNODBTABLE: props.table.tableName
+          DYNAMODBTABLE: props.table.tableName
         },
         timeout: cdk.Duration.seconds(30)
       }
@@ -45,6 +45,31 @@ export class Cognito extends cdk.Stack {
     );
 
     userPool.addPostConfirmationTrigger(fnCreateUser);
+
+    const createUserLambdaRole = fnCreateUser.role as iam.Role;
+
+    const policyDynamoTable = new iam.Policy(
+      this,
+      `${projectname}${env}PolicyLambdaToDynamo`,
+      {
+        policyName: `${projectname}${env}PolicyLambdaToDynamo`
+      }
+    );
+
+    const policyStatement = new iam.PolicyStatement({
+      effect: iam.Effect.ALLOW,
+      resources: [props.table.tableArn],
+      actions: [
+        "dynamodb:PutItem",
+        "dynamodb:GetItem",
+        "dynamodb:UpdateItem",
+        "dynamodb:Query"
+      ]
+    });
+
+    policyDynamoTable.addStatements(policyStatement);
+
+    createUserLambdaRole.attachInlinePolicy(policyDynamoTable);
 
     const cfnUserPool = userPool.node.defaultChild as cognito.CfnUserPool;
 
