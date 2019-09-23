@@ -1,3 +1,5 @@
+// For Integrity, perhaps I should have two APIs - one in VA and one in London. Perhaps two S3 buckets as well - which call the different APIs. Hmmm...
+
 import cdk = require("@aws-cdk/core");
 import s3 = require("@aws-cdk/aws-s3");
 import s3deploy = require("@aws-cdk/aws-s3-deployment");

@@ -11,6 +11,17 @@
     "@aws-cdk/cx-api" "^1.9.0"
     minimatch "^3.0.4"
 
+"@aws-cdk/aws-apigateway@^1.9.0":
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/aws-apigateway/-/aws-apigateway-1.9.0.tgz#0f0d1b83d3e1b01edba6b965dadd8b71d04d519a"
+  integrity sha512-Oj2uLoPw0MMhF2s1/OcnPTdvTnKwFL+wocxu9i3ZxYC13E5Jcsj3xpy0YzpRQZQoCY8dSrshR1tnw+2j1fVRbg==
+  dependencies:
+    "@aws-cdk/aws-certificatemanager" "^1.9.0"
+    "@aws-cdk/aws-elasticloadbalancingv2" "^1.9.0"
+    "@aws-cdk/aws-iam" "^1.9.0"
+    "@aws-cdk/aws-lambda" "^1.9.0"
+    "@aws-cdk/core" "^1.9.0"
+
 "@aws-cdk/aws-applicationautoscaling@^1.9.0":
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/@aws-cdk/aws-applicationautoscaling/-/aws-applicationautoscaling-1.9.0.tgz#654e3f986fc37ad16185ab1cb0308475d754ffc9"
@@ -19,6 +30,13 @@
     "@aws-cdk/aws-autoscaling-common" "^1.9.0"
     "@aws-cdk/aws-cloudwatch" "^1.9.0"
     "@aws-cdk/aws-iam" "^1.9.0"
+    "@aws-cdk/core" "^1.9.0"
+
+"@aws-cdk/aws-appsync@^1.9.0":
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/aws-appsync/-/aws-appsync-1.9.0.tgz#b11c2d8b8609474ed95af85861b4d74fde6e605d"
+  integrity sha512-SDXJcOT7oyDU+6pHc6xSsJst+wLIuzgh26ZIocuX3yhAmGRMODIP2sg+lbpWwidWrrPaprKwVJgDxD75eLxTpA==
+  dependencies:
     "@aws-cdk/core" "^1.9.0"
 
 "@aws-cdk/aws-autoscaling-common@^1.9.0":
@@ -98,6 +116,19 @@
     "@aws-cdk/aws-ssm" "^1.9.0"
     "@aws-cdk/core" "^1.9.0"
     "@aws-cdk/cx-api" "^1.9.0"
+
+"@aws-cdk/aws-elasticloadbalancingv2@^1.9.0":
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/aws-elasticloadbalancingv2/-/aws-elasticloadbalancingv2-1.9.0.tgz#19f920266d20f2ce3ff1cb11fd94761bda8753f7"
+  integrity sha512-9ocZAQmxyc1OfnH330vFWWYOuVbdBdd/vitBcF4Lz3P8hYNagUs+ZEW29CzGOHo+WnLX0no4I2sxnfOBvLc5dg==
+  dependencies:
+    "@aws-cdk/aws-certificatemanager" "^1.9.0"
+    "@aws-cdk/aws-cloudwatch" "^1.9.0"
+    "@aws-cdk/aws-ec2" "^1.9.0"
+    "@aws-cdk/aws-iam" "^1.9.0"
+    "@aws-cdk/aws-lambda" "^1.9.0"
+    "@aws-cdk/aws-s3" "^1.9.0"
+    "@aws-cdk/core" "^1.9.0"
 
 "@aws-cdk/aws-events@^1.9.0":
   version "1.9.0"

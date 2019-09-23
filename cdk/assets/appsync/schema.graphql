@@ -1,0 +1,29 @@
+type Mutation {
+  updateProfile(firstName: String, lastName: String): User
+}
+
+type Organization {
+  updatedAt: AWSDateTime
+  createdAt: AWSDateTime
+  id: String!
+  name: String!
+}
+
+type User {
+  id: String!
+  firstName: String
+  lastName: String
+  email: String
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+type Query {
+  getMyProfile: User
+  getUser(id: String): User
+}
+
+schema {
+  query: Query
+  mutation: Mutation
+}

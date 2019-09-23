@@ -4,6 +4,7 @@ import cdk = require("@aws-cdk/core");
 import { S3 } from "../lib/s3";
 import { DynamoDb } from "../lib/dynamodb";
 import { Cognito } from "../lib/cognito";
+import { Appsync } from "../lib/appsync";
 
 import config from "../config";
 
@@ -15,3 +16,4 @@ const app = new cdk.App();
 new S3(app, `${project}${env}S3`);
 const dynamoDb = new DynamoDb(app, `${project}${env}DynamoDb`);
 new Cognito(app, `${project}${env}Cognito`, dynamoDb);
+new Appsync(app, `${project}${env}Appsync`, dynamoDb);

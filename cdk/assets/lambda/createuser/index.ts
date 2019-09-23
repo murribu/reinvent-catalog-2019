@@ -16,7 +16,7 @@ interface DynamicObject {
 }
 
 exports.handler = async (event: any, serverlessContext: lambda.Context) => {
-  console.log("version 15");
+  console.log("version 16");
   console.log("createuser event", event);
 
   const date = new Date();
@@ -36,7 +36,7 @@ exports.handler = async (event: any, serverlessContext: lambda.Context) => {
     }
   };
 
-  let userIdx: number = 1;
+  let userSub = event.request.userAttributes["sub"];
   let organizationIdx: number = 1;
   let newUserIndex: DynamicObject;
   let newOrganizationIndex: DynamicObject;
@@ -46,9 +46,6 @@ exports.handler = async (event: any, serverlessContext: lambda.Context) => {
     const indices = indicesResponse.Items as AWS.DynamoDB.DocumentClient.AttributeMap[];
     console.log("indices", indices);
     indices.forEach(index => {
-      if (index.SK === "userIdx") {
-        userIdx = parseInt(index.indexvalue) + 1;
-      }
       if (index.SK === "organizationIdx") {
         organizationIdx = parseInt(index.indexvalue) + 1;
       }
@@ -58,32 +55,6 @@ exports.handler = async (event: any, serverlessContext: lambda.Context) => {
     console.log("no indices found");
   }
 
-  if (userIdx === 1) {
-    newUserIndex = {
-      Put: {
-        Item: {
-          indexvalue: { N: "1" },
-          PK: { S: "indices" },
-          SK: { S: "userIdx" },
-          createdAt: { S: dateAsIso },
-          updatedAt: { S: dateAsIso }
-        },
-        TableName: tableName
-      }
-    };
-  } else {
-    newUserIndex = {
-      Update: {
-        TableName: tableName,
-        Key: { PK: { S: "indices" }, SK: { S: "userIdx" } },
-        UpdateExpression: "set indexvalue = :userIdx, updatedAt = :updatedAt",
-        ExpressionAttributeValues: {
-          ":userIdx": { N: userIdx.toString() },
-          ":updatedAt": { S: dateAsIso }
-        }
-      }
-    };
-  }
   if (organizationIdx === 1) {
     newOrganizationIndex = {
       Put: {
@@ -117,7 +88,7 @@ exports.handler = async (event: any, serverlessContext: lambda.Context) => {
       lastName: event.request.userAttributes["custom:last_name"],
       organization: event.request.userAttributes["custom:organization"],
       email: event.request.userAttributes["email"],
-      PK: "user" + userIdx.toString(),
+      PK: "user" + userSub,
       SK: "user",
       createdAt: { S: dateAsIso },
       updatedAt: { S: dateAsIso }
@@ -160,10 +131,10 @@ exports.handler = async (event: any, serverlessContext: lambda.Context) => {
       S: event.request.userAttributes["custom:organization"]
     };
   }
-  userItem["PK"] = { S: "user" + userIdx.toString() };
+  userItem["PK"] = { S: "user" + userSub };
   userItem["SK"] = { S: "user" };
   let userOrganizationItem: DynamicItem = {
-    PK: { S: "user" + userIdx.toString() },
+    PK: { S: "user" + userSub },
     SK: { S: "organization" },
     organizationId: { N: organizationIdx.toString() },
     organizationName: {
@@ -205,7 +176,6 @@ exports.handler = async (event: any, serverlessContext: lambda.Context) => {
                 "attribute_not_exists(PK) and attribute_not_exists(SK)"
             }
           },
-          newUserIndex,
           newOrganizationIndex
         ]
       })
