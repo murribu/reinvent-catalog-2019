@@ -1,10 +1,13 @@
 const fs = require("fs");
 
-const result = fs.readFileSync(`${__dirname}/${process.argv[2]}`, {
-  encoding: "utf-8"
-});
+const cognitoresult = fs.readFileSync(
+  `${__dirname}/cdkdeployresult_cognito.txt`,
+  {
+    encoding: "utf-8"
+  }
+);
 
-const lines = result.split("\n");
+var lines = cognitoresult.split("\n");
 var line = 0;
 
 for (line = lines.length; line > 0; line--) {
@@ -28,12 +31,41 @@ while (line < lines.length && lines[line] !== "") {
   line++;
 }
 
+const appsyncresult = fs.readFileSync(
+  `${__dirname}/cdkdeployresult_appsync.txt`,
+  {
+    encoding: "utf-8"
+  }
+);
+
+lines = appsyncresult.split("\n");
+line = 0;
+
+for (line = lines.length; line > 0; line--) {
+  if (lines[line] === "Outputs:") {
+    line++;
+    break;
+  }
+}
+
+while (line < lines.length && lines[line] !== "") {
+  try {
+    var key = lines[line].split("=")[0].trim();
+    key = key.split(".")[key.split(".").length - 1];
+    awsOutputs[key] = lines[line].split("=")[1].trim();
+  } catch (e) {
+    console.log(awsOutputs, lines[line]);
+    throw e;
+  }
+  line++;
+}
+
 var outputs = {};
 var resultConfig;
 
-if (process.argv[3].split(".")[1] === "js") {
+if (process.argv[2].split(".")[1] === "js") {
   try {
-    resultConfig = fs.readFileSync(`${__dirname}/${process.argv[3]}`, {
+    resultConfig = fs.readFileSync(`${__dirname}/${process.argv[2]}`, {
       encoding: "utf-8"
     });
   } catch (e) {
@@ -62,7 +94,7 @@ if (process.argv[3].split(".")[1] === "js") {
     JSON.stringify(outputs) +
     ";";
 
-  fs.writeFile("src/config.js", configtxt, function(err) {
+  fs.writeFile("src/config.ts", configtxt, function(err) {
     if (err) throw err;
     console.log("config file saved!");
   });
@@ -77,8 +109,8 @@ if (process.argv[3].split(".")[1] === "js") {
     if (err) throw err;
     console.log("setAwsResourcesEnvVars file saved!");
   });
-} else if (process.argv[3].split(".")[1] === "sh") {
-  resultConfig = fs.readFileSync(`${__dirname}/templates/${process.argv[3]}`, {
+} else if (process.argv[2].split(".")[1] === "sh") {
+  resultConfig = fs.readFileSync(`${__dirname}/templates/${process.argv[2]}`, {
     encoding: "utf-8"
   });
 

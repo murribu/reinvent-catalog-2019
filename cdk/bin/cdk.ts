@@ -15,5 +15,8 @@ const app = new cdk.App();
 
 new S3(app, `${project}${env}S3`);
 const dynamoDb = new DynamoDb(app, `${project}${env}DynamoDb`);
-new Cognito(app, `${project}${env}Cognito`, dynamoDb);
-new Appsync(app, `${project}${env}Appsync`, dynamoDb);
+const appsync = new Appsync(app, `${project}${env}Appsync`, dynamoDb);
+new Cognito(app, `${project}${env}Cognito`, {
+  dynamoDb: dynamoDb,
+  appsync: appsync
+});

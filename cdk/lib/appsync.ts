@@ -15,12 +15,13 @@ interface DynamoDbProps {
 }
 
 export class Appsync extends cdk.Stack {
+  public readonly api: appsync.CfnGraphQLApi;
   constructor(scope: cdk.Construct, id: string, props: DynamoDbProps) {
     super(scope, id);
 
     const apiname = `${projectname}${env}`;
 
-    const api = new appsync.CfnGraphQLApi(this, apiname, {
+    this.api = new appsync.CfnGraphQLApi(this, apiname, {
       authenticationType: "AWS_IAM",
       name: apiname
     });
@@ -30,7 +31,7 @@ export class Appsync extends cdk.Stack {
     fs.readFile("./assets/appsync/schema.graphql", "utf8", function(err, data) {
       if (err) throw err;
       new appsync.CfnGraphQLSchema(self, `${apiname}Schema`, {
-        apiId: api.attrApiId,
+        apiId: self.api.attrApiId,
         definition: data
       });
     });
@@ -81,7 +82,7 @@ export class Appsync extends cdk.Stack {
     });
 
     const ds = new appsync.CfnDataSource(this, `${apiname}DataSource`, {
-      apiId: api.attrApiId,
+      apiId: this.api.attrApiId,
       name: `${apiname}DataSource`,
       type: "AMAZON_DYNAMODB",
       dynamoDbConfig: {
@@ -102,7 +103,7 @@ export class Appsync extends cdk.Stack {
           function(err, responseTemplate) {
             if (err) throw err;
             new appsync.CfnResolver(self, `${apiname}getMyProfile`, {
-              apiId: api.attrApiId,
+              apiId: self.api.attrApiId,
               fieldName: "getMyProfile",
               typeName: "Query",
               dataSourceName: ds.attrName,
@@ -117,7 +118,7 @@ export class Appsync extends cdk.Stack {
 
     new cdk.CfnOutput(this, "apiurl", {
       description: "apiurl",
-      value: api.attrGraphQlUrl
+      value: this.api.attrGraphQlUrl
     });
   }
 }

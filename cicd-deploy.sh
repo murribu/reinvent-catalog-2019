@@ -8,9 +8,11 @@ yarn
 yarn build && cdk synth
 cdk deploy ReinventCatalogTestingCognito --require-approval never &> ../cdkdeployresult_cognito.txt
 wait $!
+cdk deploy ReinventCatalogTestingAppsync --require-approval never &> ../cdkdeployresult_appsync.txt
+wait $!
 cd ..
 echo "export default {};" > src/config.js
-node parseAwsOutputs.js cdkdeployresult_cognito.txt src/config.js
+node parseAwsOutputs.js src/config.js
 chmod +x setAwsResourcesEnvVars.sh
 . ./setAwsResourcesEnvVars.sh
 aws cognito-idp sign-up --region us-east-1 --client-id $WEBCLIENTID --username admin@example.com --password Passw0rd!  --user-attributes '[{"Name":"custom:first_name","Value":"Admin"},{"Name":"custom:last_name","Value":"Istrator"},{"Name":"custom:organization","Value":"Example"}]'
