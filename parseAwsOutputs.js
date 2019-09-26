@@ -84,7 +84,6 @@ if (process.argv[2].split(".")[1] === "js") {
     lineConfig++;
   }
   objectText = objectText.substring(15, objectText.length - 1);
-  console.log(objectText);
   outputs = JSON.parse(objectText);
 
   outputs.aws = awsOutputs;
@@ -94,7 +93,7 @@ if (process.argv[2].split(".")[1] === "js") {
     JSON.stringify(outputs) +
     ";";
 
-  fs.writeFile("src/config.ts", configtxt, function(err) {
+  fs.writeFile("src/config.js", configtxt, function(err) {
     if (err) throw err;
     console.log("config file saved!");
   });

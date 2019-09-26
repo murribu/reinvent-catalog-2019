@@ -9,8 +9,10 @@ import {
   VerifyContact,
   ForgotPassword,
   RequireNewPassword,
-  TOTPSetup
+  TOTPSetup,
+  SignUp
 } from "aws-amplify-react";
+import { Authenticator } from "aws-amplify-react/dist/Auth";
 import { withStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import AWS from "aws-sdk";
@@ -20,7 +22,7 @@ import AuthLogo from "./components/AuthLogo";
 import NavBar from "./components/NavBar";
 import Menu from "./components/Menu";
 import Alert from "./components/Alert";
-import { fetchFlags } from "./redux/actions";
+import { fetchFlags, fetchMyProfile } from "./redux/actions";
 import * as constants from "./constants";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
@@ -73,20 +75,38 @@ interface AppProps {
   dispatch: any;
 }
 
+interface RegisterAttributes {
+  email: string;
+  password: string;
+}
+
 interface AppState {
   loading: boolean;
   drawerOpen: boolean;
   mobileDrawerOpen: boolean;
+  afterRegisterAttributes: RegisterAttributes;
 }
 
 class App extends Component<AppProps, AppState> {
+  setAfterRegisterAttributes(values: RegisterAttributes) {
+    this.setState({ afterRegisterAttributes: values });
+  }
+
+  getAfterRegisterAttributes() {
+    return this.state.afterRegisterAttributes;
+  }
+
   groups: any[] = [];
   Routes: any;
 
   state: AppState = {
     loading: true,
     drawerOpen: false,
-    mobileDrawerOpen: false
+    mobileDrawerOpen: false,
+    afterRegisterAttributes: {
+      email: "",
+      password: ""
+    }
   };
 
   authAWS(authData: any): Promise<any> {
@@ -120,7 +140,7 @@ class App extends Component<AppProps, AppState> {
     const authAws = await this.authAWS(authData);
     console.log(authAws);
 
-    // this.props.dispatch(fetchFlags());
+    this.props.dispatch(fetchMyProfile());
 
     this.setState({ loading: false });
   }
@@ -248,18 +268,4 @@ const customTheme = {
   }
 };
 
-export default withAuthenticator(
-  withStyles(styles)(connectedApp),
-  false,
-  [
-    <AuthLogo />,
-    <SignIn />,
-    <ConfirmSignIn />,
-    <RequireNewPassword />,
-    <VerifyContact />,
-    <ForgotPassword />,
-    <TOTPSetup />
-  ],
-  null,
-  customTheme
-);
+export default withStyles(styles)(connectedApp);

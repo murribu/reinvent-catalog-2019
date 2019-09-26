@@ -28,11 +28,9 @@ interface DynamoDbAndAppsyncProps {
 export class Cognito extends cdk.Stack {
   public readonly webClientId: string;
   public readonly region: string;
-  constructor(
-    scope: cdk.Construct,
-    id: string,
-    props: DynamoDbAndAppsyncProps
-  ) {
+  public readonly userpool: cognito.UserPool;
+  public readonly identitypool: cognito.CfnIdentityPool;
+  constructor(scope: cdk.Construct, id: string, props: DynamoDbProps) {
     super(scope, id);
 
     const fnCreateUser = new lambda.Function(
@@ -43,13 +41,13 @@ export class Cognito extends cdk.Stack {
         handler: "src/index.handler",
         code: lambda.Code.asset("./assets/lambda/createuser"),
         environment: {
-          DYNAMODBTABLE: props.dynamoDb.table.tableName
+          DYNAMODBTABLE: props.table.tableName
         },
         timeout: cdk.Duration.seconds(30)
       }
     );
 
-    const userPool = new cognito.UserPool(
+    this.userpool = new cognito.UserPool(
       this,
       `${projectname}${env}CfnUserPool`,
       {
@@ -58,7 +56,7 @@ export class Cognito extends cdk.Stack {
       }
     );
 
-    userPool.addPostConfirmationTrigger(fnCreateUser);
+    this.userpool.addPostConfirmationTrigger(fnCreateUser);
 
     const createUserLambdaRole = fnCreateUser.role as iam.Role;
 
@@ -72,7 +70,7 @@ export class Cognito extends cdk.Stack {
 
     const policyStatement = new iam.PolicyStatement({
       effect: iam.Effect.ALLOW,
-      resources: [props.dynamoDb.table.tableArn],
+      resources: [props.table.tableArn],
       actions: [
         "dynamodb:PutItem",
         "dynamodb:GetItem",
@@ -85,7 +83,7 @@ export class Cognito extends cdk.Stack {
 
     createUserLambdaRole.attachInlinePolicy(policyDynamoTable);
 
-    const cfnUserPool = userPool.node.defaultChild as cognito.CfnUserPool;
+    const cfnUserPool = this.userpool.node.defaultChild as cognito.CfnUserPool;
 
     cfnUserPool.schema = [
       {
@@ -163,44 +161,7 @@ export class Cognito extends cdk.Stack {
       }
     );
 
-    const unauthPolicyDocument = new iam.PolicyDocument();
-
-    const unauthPolicyStatement = new iam.PolicyStatement({
-      effect: iam.Effect.ALLOW
-    });
-
-    unauthPolicyStatement.addActions("cognito-sync:*");
-
-    unauthPolicyStatement.addResources("*");
-    unauthPolicyDocument.addStatements(unauthPolicyStatement);
-
-    const cognitoAuthPolicyDocument = new iam.PolicyDocument();
-
-    const cognitoAuthPolicyStatement = new iam.PolicyStatement({
-      effect: iam.Effect.ALLOW
-    });
-
-    cognitoAuthPolicyStatement.addActions(
-      "cognito-sync:*",
-      "cognito-identity:*"
-    );
-
-    cognitoAuthPolicyStatement.addResources("*");
-    cognitoAuthPolicyDocument.addStatements(cognitoAuthPolicyStatement);
-
-    const appsyncAuthPolicyDocument = new iam.PolicyDocument();
-    const appsyncAuthPolicyStatement = new iam.PolicyStatement({
-      effect: iam.Effect.ALLOW
-    });
-
-    appsyncAuthPolicyStatement.addActions("appsync:GraphQL");
-    appsyncAuthPolicyStatement.addResources(
-      props.appsync.api.attrArn,
-      "arn:aws:appsync:*:*:apis/*/types/*/fields/*"
-    );
-    cognitoAuthPolicyDocument.addStatements(appsyncAuthPolicyStatement);
-
-    const cfnIdentityPool = new cognito.CfnIdentityPool(
+    this.identitypool = new cognito.CfnIdentityPool(
       this,
       `${projectname}${env}IdentityPool`,
       {
@@ -211,56 +172,6 @@ export class Cognito extends cdk.Stack {
           }
         ],
         allowUnauthenticatedIdentities: false
-      }
-    );
-
-    const unauthRole = new iam.Role(this, `${projectname}${env}UnauthRole`, {
-      assumedBy: new iam.FederatedPrincipal(
-        "cognito-identity.amazonaws.com",
-        {
-          StringEquals: {
-            "cognito-identity.amazonaws.com:aud": cfnIdentityPool.ref
-          },
-          "ForAnyValue:StringLike": {
-            "cognito-identity.amazonaws.com:amr": "unauthenticated"
-          }
-        },
-        "sts:AssumeRoleWithWebIdentity"
-      ),
-      roleName: `a${projectname}${env}UnauthRole`,
-      inlinePolicies: {
-        unauthPolicyDocument: unauthPolicyDocument
-      }
-    });
-
-    const authRole = new iam.Role(this, `${projectname}${env}AuthRole`, {
-      assumedBy: new iam.FederatedPrincipal(
-        "cognito-identity.amazonaws.com",
-        {
-          StringEquals: {
-            "cognito-identity.amazonaws.com:aud": cfnIdentityPool.ref
-          },
-          "ForAnyValue:StringLike": {
-            "cognito-identity.amazonaws.com:amr": "authenticated"
-          }
-        },
-        "sts:AssumeRoleWithWebIdentity"
-      ),
-      roleName: `a${projectname}${env}AuthRole`,
-      inlinePolicies: {
-        cognitoAuthPolicyDocument: cognitoAuthPolicyDocument
-      }
-    });
-
-    new cognito.CfnIdentityPoolRoleAttachment(
-      this,
-      `${projectname}${env}RoleAttachment`,
-      {
-        identityPoolId: cfnIdentityPool.ref,
-        roles: {
-          unauthenticated: unauthRole.roleArn,
-          authenticated: authRole.roleArn
-        }
       }
     );
 
@@ -278,7 +189,7 @@ export class Cognito extends cdk.Stack {
 
     new cdk.CfnOutput(this, "identitypoolid", {
       description: "identitypoolid",
-      value: cfnIdentityPool.ref
+      value: this.identitypool.ref
     });
 
     new cdk.CfnOutput(this, "cognitoregion", {

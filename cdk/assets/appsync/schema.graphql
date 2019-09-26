@@ -19,8 +19,8 @@ type User {
 }
 
 type Query {
-  getMyProfile: User
-  getUser(id: String): User
+  fetchMyProfile: User
+  fetchUser(id: String): User
 }
 
 schema {

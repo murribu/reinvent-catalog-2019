@@ -3,6 +3,7 @@
 import cdk = require("@aws-cdk/core");
 import appsync = require("@aws-cdk/aws-appsync");
 import dynamodb = require("@aws-cdk/aws-dynamodb");
+import cognito = require("@aws-cdk/aws-cognito");
 import iam = require("@aws-cdk/aws-iam");
 import fs = require("fs");
 import config = require("../config");
@@ -14,15 +15,34 @@ interface DynamoDbProps {
   table: dynamodb.Table;
 }
 
+interface CognitoProps {
+  userpool: cognito.UserPool;
+  identitypool: cognito.CfnIdentityPool;
+}
+
+interface DynamoDbAndCognitoProps {
+  dynamoDb: DynamoDbProps;
+  cognito: CognitoProps;
+}
+
 export class Appsync extends cdk.Stack {
   public readonly api: appsync.CfnGraphQLApi;
-  constructor(scope: cdk.Construct, id: string, props: DynamoDbProps) {
+  constructor(
+    scope: cdk.Construct,
+    id: string,
+    props: DynamoDbAndCognitoProps
+  ) {
     super(scope, id);
 
     const apiname = `${projectname}${env}`;
 
     this.api = new appsync.CfnGraphQLApi(this, apiname, {
-      authenticationType: "AWS_IAM",
+      authenticationType: "AMAZON_COGNITO_USER_POOLS",
+      userPoolConfig: {
+        awsRegion: "us-east-1",
+        userPoolId: props.cognito.userpool.userPoolId,
+        defaultAction: "ALLOW"
+      },
       name: apiname
     });
 
@@ -71,8 +91,8 @@ export class Appsync extends cdk.Stack {
       "dynamodb:UpdateItem"
     );
     policyStatement.addResources(
-      props.table.tableArn,
-      props.table.tableArn + "/*"
+      props.dynamoDb.table.tableArn,
+      props.dynamoDb.table.tableArn + "/*"
     );
     policyDocument.addStatements(policyStatement);
 
@@ -87,24 +107,24 @@ export class Appsync extends cdk.Stack {
       type: "AMAZON_DYNAMODB",
       dynamoDbConfig: {
         awsRegion: "us-east-1",
-        tableName: props.table.tableName
+        tableName: props.dynamoDb.table.tableName
       },
       serviceRoleArn: role.roleArn
     });
 
     fs.readFile(
-      "./assets/appsync/resolvers/Query.getMyProfile.request",
+      "./assets/appsync/resolvers/Query.fetchMyProfile.request",
       "utf8",
       function(err, requestTemplate) {
         if (err) throw err;
         fs.readFile(
-          "./assets/appsync/resolvers/Query.getMyProfile.response",
+          "./assets/appsync/resolvers/Query.fetchMyProfile.response",
           "utf8",
           function(err, responseTemplate) {
             if (err) throw err;
-            new appsync.CfnResolver(self, `${apiname}getMyProfile`, {
+            new appsync.CfnResolver(self, `${apiname}fetchMyProfile`, {
               apiId: self.api.attrApiId,
-              fieldName: "getMyProfile",
+              fieldName: "fetchMyProfile",
               typeName: "Query",
               dataSourceName: ds.attrName,
               kind: "UNIT",
