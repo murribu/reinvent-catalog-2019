@@ -1,7 +1,10 @@
 {
-    "version": "2017-02-28",
-    "operation": "Query",
-    "key": {
-        "PK": {"S": "user$ctx.identity.cognitoIdentityId"},
+    "version" : "2017-02-28",
+    "operation" : "Query",
+    "query" : {
+        "expression": "PK = :id",
+        "expressionValues" : {
+            ":id" : {"S": "user$ctx.identity.sub"}
+        }
     }
 }

@@ -59,12 +59,13 @@ export const listCommentFlags = `query ListCommentFlags(
 `;
 
 export const fetchMyProfile = `query FetchMyProfile {
-  fetchMyProfile() {
-    User {
-      PK,
-      SK,
-      firstName,
-      lastName
-    }
+  fetchMyProfile {
+    PK,
+    SK
+    firstName,
+    lastName,
+    organizationName,
+    organizationId,
+    admin
   }
 }`;

@@ -9,18 +9,21 @@ type Organization {
   name: String!
 }
 
+type Query {
+  fetchMyProfile: [User]
+  fetchUser(id: String): User
+}
+
 type User {
-  id: String!
+  PK: String
+  SK: String
   firstName: String
   lastName: String
   email: String
+  organizationName: String
+  organizationId: String
   createdAt: AWSDateTime
   updatedAt: AWSDateTime
-}
-
-type Query {
-  fetchMyProfile: User
-  fetchUser(id: String): User
 }
 
 schema {

@@ -254,7 +254,6 @@ export default class MySignUp extends SignUp {
     let self = this;
     Auth.confirmSignUp(username, code)
       .then(async () => {
-        debugger;
         const user = await Auth.signIn(this.inputs.email, this.inputs.password);
         console.log(user);
         this.changeState("signedIn", user);

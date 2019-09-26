@@ -17,7 +17,6 @@ import Amplify, { API } from "aws-amplify";
 import App from "./App";
 import MySignUp from "./components/authentication/MySignUp";
 import MySignIn from "./components/authentication/MySignIn";
-import MyConfirmSignUp from "./components/authentication/MyConfirmSignUp";
 import { UsernameAttributes } from "aws-amplify-react/dist/Auth/common/types";
 
 import { default as config } from "./config";
@@ -32,11 +31,11 @@ Amplify.configure({
   API: {
     aws_appsync_graphqlEndpoint: config.aws.apiurl,
     aws_appsync_region: "us-east-1",
-    aws_appsync_authenticationType: "AWS_IAM"
+    aws_appsync_authenticationType: "AMAZON_COGNITO_USER_POOLS"
   },
   aws_appsync_graphqlEndpoint: config.aws.apiurl,
   aws_appsync_region: "us-east-1",
-  aws_appsync_authenticationType: "AWS_IAM"
+  aws_appsync_authenticationType: "AMAZON_COGNITO_USER_POOLS"
 });
 
 // Amplify.Logger.LOG_LEVEL = "DEBUG";

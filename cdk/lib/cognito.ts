@@ -85,6 +85,8 @@ export class Cognito extends cdk.Stack {
 
     const cfnUserPool = this.userpool.node.defaultChild as cognito.CfnUserPool;
 
+    cfnUserPool.mfaConfiguration = "OPTIONAL";
+
     cfnUserPool.schema = [
       {
         attributeDataType: "String",

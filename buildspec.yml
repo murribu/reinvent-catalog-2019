@@ -3,6 +3,9 @@ phases:
   install:
     runtime-versions:
       nodejs: 10
+  pre_build:
+    commands:
+      - curl --location --request GET "https://api.getpostman.com/collections/2262357-cde6307e-8b84-446a-a7ef-26e8e65a96d0" --header "X-Api-Key: $API_KEY" -o _testing/ReinventCatalog.postman_collection.json'
   build:
     commands:
       - cp cdk/config.example.ts cdk/config.ts
@@ -12,6 +15,7 @@ phases:
       - echo "export default {};" > src/config.js
       - chmod +x cicd-deploy.sh
       - ./cicd-deploy.sh
+      - newman run _testing/ReinventCatalog.postman_collection.json -e _testing/Testing.postman_environment.json
   post_build:
     commands:
       - chmod +x cicd-destroy.sh
