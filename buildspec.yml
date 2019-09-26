@@ -3,7 +3,6 @@ phases:
   install:
     runtime-versions:
       nodejs: 10
-  pre_build:
     commands:
       - echo $AWS_REGION
       - curl --location --request GET "https://api.getpostman.com/collections/2262357-cde6307e-8b84-446a-a7ef-26e8e65a96d0" --header "X-Api-Key\:\ $API_KEY" -o _testing/ReinventCatalog.postman_collection.json'
