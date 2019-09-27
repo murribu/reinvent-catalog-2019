@@ -1,5 +1,6 @@
 #!/bin/bash
-tail cdkdeployresult_cognito.txt
+cat setAwsResourcesEnvVars.sh
+cat _testing/Testing.postman_environment.json
 cd cdk
 echo "y" | cdk destroy ReinventCatalogTestingCognito
 echo "y" | cdk destroy ReinventCatalogTestingDynamoDb
