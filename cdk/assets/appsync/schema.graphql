@@ -22,6 +22,7 @@ type User {
   email: String
   organizationName: String
   organizationId: String
+  admin: Boolean
   createdAt: AWSDateTime
   updatedAt: AWSDateTime
 }
