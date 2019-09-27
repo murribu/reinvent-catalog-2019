@@ -18,5 +18,6 @@ chmod +x setAwsResourcesEnvVars.sh
 . ./setAwsResourcesEnvVars.sh
 aws cognito-idp sign-up --region us-east-1 --client-id $WEBCLIENTID --username admin@example.com --password Passw0rd!  --user-attributes '[{"Name":"custom:first_name","Value":"Admin"},{"Name":"custom:last_name","Value":"Istrator"},{"Name":"custom:organization","Value":"Example"}]'
 aws cognito-idp admin-confirm-sign-up --region us-east-1 --user-pool-id $USERPOOLID --username admin@example.com
+yarn
 node getCicdUserJwt.js admin@example.com Passw0rd! $USERPOOLID $WEBCLIENTID $APIURL
 wait $!
