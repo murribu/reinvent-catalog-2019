@@ -1,6 +1,4 @@
 #!/bin/bash
-cat setAwsResourcesEnvVars.sh
-cat _testing/Testing.postman_environment.json
 cd cdk
 echo "y" | cdk destroy ReinventCatalogTestingCognito
 echo "y" | cdk destroy ReinventCatalogTestingDynamoDb
