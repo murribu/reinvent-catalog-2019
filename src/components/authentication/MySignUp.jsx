@@ -1,7 +1,6 @@
 import React from "react";
 import { SignUp } from "aws-amplify-react";
 import Auth from "@aws-amplify/auth";
-import AuthPiece from "aws-amplify-react/dist/Auth/AuthPiece";
 import countryDialCodes from "aws-amplify-react/dist/Auth/common/country-dial-codes.js";
 import App from "../../App";
 import { auth } from "aws-amplify-react/dist/Amplify-UI/data-test-attributes";
@@ -15,7 +14,6 @@ import {
   FormField,
   Input,
   InputLabel,
-  SelectInput,
   Button,
   Link,
   SectionFooterPrimaryContent,
@@ -82,6 +80,7 @@ export default class MySignUp extends SignUp {
           el.invalid = false;
         }
       }
+      return el;
     });
     return invalids;
   }
@@ -143,6 +142,7 @@ export default class MySignUp extends SignUp {
             return 1;
           }
         }
+        return 1;
       });
     } else {
       this.signUpFields = this.defaultSignUpFields;
@@ -251,7 +251,6 @@ export default class MySignUp extends SignUp {
         "No Auth module found, please ensure @aws-amplify/auth is imported"
       );
     }
-    let self = this;
     Auth.confirmSignUp(username, code)
       .then(async () => {
         const user = await Auth.signIn(this.inputs.email, this.inputs.password);

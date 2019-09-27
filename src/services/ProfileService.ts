@@ -6,8 +6,8 @@ class ProfileService extends BaseService {
   async fetchMyProfile() {
     try {
       const profile = await API.graphql(graphqlOperation(fetchMyProfile));
-      console.log("FETCHED PROFILE", profile);
-      return profile;
+      console.log("FETCHED PROFILE", profile.data.fetchMyProfile);
+      return profile.data.fetchMyProfile;
     } catch (err) {
       console.error("COULD NOT FETCH PROFILE", err);
     }

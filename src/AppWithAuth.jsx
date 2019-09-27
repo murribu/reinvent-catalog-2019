@@ -1,11 +1,8 @@
 import React from "react";
 import {
-  SignIn,
   ConfirmSignIn,
   SignOut,
   RequireNewPassword,
-  SignUp,
-  ConfirmSignUp,
   VerifyContact,
   ForgotPassword,
   Greetings,
@@ -13,7 +10,7 @@ import {
   Loading,
   withAuthenticator
 } from "aws-amplify-react";
-import Amplify, { API } from "aws-amplify";
+import Amplify from "aws-amplify";
 import App from "./App";
 import MySignUp from "./components/authentication/MySignUp";
 import MySignIn from "./components/authentication/MySignIn";

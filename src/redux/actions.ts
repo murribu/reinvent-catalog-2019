@@ -6,7 +6,7 @@ export const RECEIVE_FLAGS = "@@flags/receive_flags";
 export const BEGIN_FLAG_UPDATE = "@@flags/begin_flag_update";
 export const END_FLAG_UPDATE = "@@flags/end_flag_update";
 export const SET_FLAG_ERROR = "@@flags/set_flag_error";
-export const FETCH_MY_PROFILE = "@@profile/fetch_my";
+export const FETCH_MY_PROFILE = "@@profile/fetch_my_profile";
 export const RECEIVE_MY_PROFILE = "@@profile/receive_my_profile";
 export function fetchFlags() {
   return async (dispatch: any) => {
