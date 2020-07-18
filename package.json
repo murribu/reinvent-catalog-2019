@@ -20,7 +20,7 @@
     "aws-sdk": "^2.431.0",
     "connected-react-router": "^6.3.2",
     "history": "^4.9.0",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.19",
     "material-table": "1.28.2",
     "material-ui-image": "^3.1.0",
     "pluralize": "^7.0.0",
