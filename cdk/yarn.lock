@@ -11,17 +11,6 @@
     "@aws-cdk/cx-api" "^1.9.0"
     minimatch "^3.0.4"
 
-"@aws-cdk/aws-apigateway@^1.9.0":
-  version "1.9.0"
-  resolved "https://registry.yarnpkg.com/@aws-cdk/aws-apigateway/-/aws-apigateway-1.9.0.tgz#0f0d1b83d3e1b01edba6b965dadd8b71d04d519a"
-  integrity sha512-Oj2uLoPw0MMhF2s1/OcnPTdvTnKwFL+wocxu9i3ZxYC13E5Jcsj3xpy0YzpRQZQoCY8dSrshR1tnw+2j1fVRbg==
-  dependencies:
-    "@aws-cdk/aws-certificatemanager" "^1.9.0"
-    "@aws-cdk/aws-elasticloadbalancingv2" "^1.9.0"
-    "@aws-cdk/aws-iam" "^1.9.0"
-    "@aws-cdk/aws-lambda" "^1.9.0"
-    "@aws-cdk/core" "^1.9.0"
-
 "@aws-cdk/aws-applicationautoscaling@^1.9.0":
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/@aws-cdk/aws-applicationautoscaling/-/aws-applicationautoscaling-1.9.0.tgz#654e3f986fc37ad16185ab1cb0308475d754ffc9"
@@ -116,19 +105,6 @@
     "@aws-cdk/aws-ssm" "^1.9.0"
     "@aws-cdk/core" "^1.9.0"
     "@aws-cdk/cx-api" "^1.9.0"
-
-"@aws-cdk/aws-elasticloadbalancingv2@^1.9.0":
-  version "1.9.0"
-  resolved "https://registry.yarnpkg.com/@aws-cdk/aws-elasticloadbalancingv2/-/aws-elasticloadbalancingv2-1.9.0.tgz#19f920266d20f2ce3ff1cb11fd94761bda8753f7"
-  integrity sha512-9ocZAQmxyc1OfnH330vFWWYOuVbdBdd/vitBcF4Lz3P8hYNagUs+ZEW29CzGOHo+WnLX0no4I2sxnfOBvLc5dg==
-  dependencies:
-    "@aws-cdk/aws-certificatemanager" "^1.9.0"
-    "@aws-cdk/aws-cloudwatch" "^1.9.0"
-    "@aws-cdk/aws-ec2" "^1.9.0"
-    "@aws-cdk/aws-iam" "^1.9.0"
-    "@aws-cdk/aws-lambda" "^1.9.0"
-    "@aws-cdk/aws-s3" "^1.9.0"
-    "@aws-cdk/core" "^1.9.0"
 
 "@aws-cdk/aws-events@^1.9.0":
   version "1.9.0"
@@ -1800,9 +1776,9 @@ yaml@^1.6.0:
     "@babel/runtime" "^7.4.5"
 
 yargs-parser@^13.1.1:
-  version "13.1.1"
-  resolved "https://registry.yarnpkg.com/yargs-parser/-/yargs-parser-13.1.1.tgz#d26058532aa06d365fe091f6a1fc06b2f7e5eca0"
-  integrity sha512-oVAVsHz6uFrg3XQheFII8ESO2ssAf9luWuAd6Wexsu4F3OtIW0o8IribPXYrD4WC24LWtPrJlGy87y5udK+dxQ==
+  version "13.1.2"
+  resolved "https://registry.yarnpkg.com/yargs-parser/-/yargs-parser-13.1.2.tgz#130f09702ebaeef2650d54ce6e3e5706f7a4fb38"
+  integrity sha512-3lbsNRf/j+A4QuSZfDRA7HRSfWrzO0YjqTJd5kjAq37Zep1CEgaYmrH9Q3GwPiB9cHyd1Y1UwggGhJGoxipbzg==
   dependencies:
     camelcase "^5.0.0"
     decamelize "^1.2.0"
