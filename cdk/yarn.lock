@@ -11,17 +11,6 @@
     "@aws-cdk/cx-api" "^1.9.0"
     minimatch "^3.0.4"
 
-"@aws-cdk/aws-apigateway@^1.9.0":
-  version "1.9.0"
-  resolved "https://registry.yarnpkg.com/@aws-cdk/aws-apigateway/-/aws-apigateway-1.9.0.tgz#0f0d1b83d3e1b01edba6b965dadd8b71d04d519a"
-  integrity sha512-Oj2uLoPw0MMhF2s1/OcnPTdvTnKwFL+wocxu9i3ZxYC13E5Jcsj3xpy0YzpRQZQoCY8dSrshR1tnw+2j1fVRbg==
-  dependencies:
-    "@aws-cdk/aws-certificatemanager" "^1.9.0"
-    "@aws-cdk/aws-elasticloadbalancingv2" "^1.9.0"
-    "@aws-cdk/aws-iam" "^1.9.0"
-    "@aws-cdk/aws-lambda" "^1.9.0"
-    "@aws-cdk/core" "^1.9.0"
-
 "@aws-cdk/aws-applicationautoscaling@^1.9.0":
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/@aws-cdk/aws-applicationautoscaling/-/aws-applicationautoscaling-1.9.0.tgz#654e3f986fc37ad16185ab1cb0308475d754ffc9"
@@ -116,19 +105,6 @@
     "@aws-cdk/aws-ssm" "^1.9.0"
     "@aws-cdk/core" "^1.9.0"
     "@aws-cdk/cx-api" "^1.9.0"
-
-"@aws-cdk/aws-elasticloadbalancingv2@^1.9.0":
-  version "1.9.0"
-  resolved "https://registry.yarnpkg.com/@aws-cdk/aws-elasticloadbalancingv2/-/aws-elasticloadbalancingv2-1.9.0.tgz#19f920266d20f2ce3ff1cb11fd94761bda8753f7"
-  integrity sha512-9ocZAQmxyc1OfnH330vFWWYOuVbdBdd/vitBcF4Lz3P8hYNagUs+ZEW29CzGOHo+WnLX0no4I2sxnfOBvLc5dg==
-  dependencies:
-    "@aws-cdk/aws-certificatemanager" "^1.9.0"
-    "@aws-cdk/aws-cloudwatch" "^1.9.0"
-    "@aws-cdk/aws-ec2" "^1.9.0"
-    "@aws-cdk/aws-iam" "^1.9.0"
-    "@aws-cdk/aws-lambda" "^1.9.0"
-    "@aws-cdk/aws-s3" "^1.9.0"
-    "@aws-cdk/core" "^1.9.0"
 
 "@aws-cdk/aws-events@^1.9.0":
   version "1.9.0"
@@ -1783,9 +1759,9 @@ xregexp@^4.2.4:
     "@babel/runtime-corejs2" "^7.2.0"
 
 y18n@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/y18n/-/y18n-4.0.0.tgz#95ef94f85ecc81d007c264e190a120f0a3c8566b"
-  integrity sha512-r9S/ZyXu/Xu9q1tYlpsLIsa3EeLXXk0VwlxqTcFRfg9EhMW+17kbt9G0NrgCmhGb5vT2hyhJZLfDGx+7+5Uj/w==
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/y18n/-/y18n-4.0.1.tgz#8db2b83c31c5d75099bb890b23f3094891e247d4"
+  integrity sha512-wNcy4NvjMYL8gogWWYAO7ZFWFfHcbdbE57tZO8e4cbpj8tfUcwrwqSl3ad8HxpYWCdXcJUCeKKZS62Av1affwQ==
 
 yallist@^2.1.2:
   version "2.1.2"
