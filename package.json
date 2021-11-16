@@ -17,7 +17,7 @@
     "amazon-cognito-identity-js": "^3.0.15",
     "aws-amplify": "^1.1.23",
     "aws-amplify-react": "^2.3.3",
-    "aws-sdk": "^2.431.0",
+    "aws-sdk": "^2.814.0",
     "connected-react-router": "^6.3.2",
     "history": "^4.9.0",
     "lodash": "^4.17.11",
